@@ -1,0 +1,38 @@
+<Project>
+  <PropertyGroup>
+    <AssemblyName>KSPMMCfgValidator</AssemblyName>
+    <OutputPath>..\_build\$(AssemblyName)\$(Configuration)\bin\</OutputPath>
+    <BaseIntermediateOutputPath>..\_build\$(AssemblyName)\$(Configuration)\obj\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>..\_build\$(AssemblyName)\$(Configuration)\obj\</IntermediateOutputPath>
+  </PropertyGroup>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <PropertyGroup>
+    <RootNamespace>KSPMMCfgValidator</RootNamespace>
+    <ProjectGuid>{4F9CE4B6-D369-4713-A224-216982AC2BA}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <StartupObject>KSPMMCfgValidator.KSPMMCfgValidator</StartupObject>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>None</DebugType>
+    <DocumentationFile>$(BaseIntermediateOutputPath)$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <PackageReference Include="CommandLineParser" Version="1.9.71" />
+    <PackageReference Include="log4net" Version="2.0.10" />
+    <PackageReference Include="ParsecSharp" Version="3.4.0"
+                      PrivateAssets="All" />
+    <ProjectReference Include="..\KSPMMCfgParser\KSPMMCfgParser.csproj" />
+  </ItemGroup>
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+</Project>

@@ -1,0 +1,70 @@
+name: Create release assets
+
+on:
+  release:
+    types:
+      - created
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    container:
+      image: mono:latest
+
+    steps:
+      - name: Installing build dependencies
+        run: apt-get update && apt-get install -y wget jq
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Restore, build, and test
+        run: msbuild -r -p:configuration=Release
+      - name: Get release data
+        id: release_data
+        run: |
+          echo -n '::set-output name=upload_url::'
+          wget -qO- https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest | jq -rM '.upload_url'
+          echo -n '::set-output name=nupkg_basename::'
+          basename _build/KSPMMCfgParser/Release/bin/KSPMMCfgParser.*.nupkg
+
+      - name: Upload parser nupkg release asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release_data.outputs.upload_url }}
+          asset_path: _build/KSPMMCfgParser/Release/bin/${{ steps.release_data.outputs.nupkg_basename }}
+          asset_name: ${{ steps.release_data.outputs.nupkg_basename }}
+          asset_content_type: application/vnd.microsoft.portable-executable
+
+      - name: Upload validator exe release asset
+        uses: actions/upload-release-asset@v1.0.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.release_data.outputs.upload_url }}
+          asset_path: _build/KSPMMCfgValidator/Release/bin/net461/KSPMMCfgValidator.exe
+          asset_name: KSPMMCfgValidator.exe
+          asset_content_type: application/vnd.microsoft.portable-executable
+
+      - name: Publish parser to NuGet
+        env:
+          NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
+        if: ${{ env.NUGET_API_KEY }}
+        run: |
+          curl -o nuget.exe -L 'https://dist.nuget.org/win-x86-commandline/v5.6.0/nuget.exe'
+          mono nuget.exe push _build/KSPMMCfgParser/Release/bin/${{ steps.release_data.outputs.nupkg_basename }} ${{ secrets.NUGET_API_KEY }} -Source https://api.nuget.org/v3/index.json -SkipDuplicate
+
+      - name: Generate validator image and publish to Docker Hub
+        env:
+          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
+          DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
+        if: ${{ env.DOCKERHUB_USERNAME && env.DOCKERHUB_PASSWORD }}
+        run: |
+          curl -fsSL https://get.docker.com -o get-docker.sh
+          sh get-docker.sh
+          echo "$DOCKERHUB_PASSWORD" | docker login -u "$DOCKERHUB_USERNAME" --password-stdin
+          mkdir -p _build/docker/KSPMMCfgValidator
+          cp KSPMMCfgValidator/Dockerfile _build/KSPMMCfgValidator/Release/bin/*/KSPMMCfgValidator.exe _build/docker/KSPMMCfgValidator
+          docker build -t kspckan/kspmmcfgvalidator:latest _build/docker/KSPMMCfgValidator
+          docker push kspckan/kspmmcfgvalidator:latest

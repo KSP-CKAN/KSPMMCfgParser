@@ -1,0 +1,7 @@
+name: Kerbal Space Program Module Manager Config File Validator
+description: Checks .cfg files for syntax errors
+author:
+  - HebaruSan
+runs:
+  using: docker
+  image: docker://kspckan/kspmmcfgvalidator

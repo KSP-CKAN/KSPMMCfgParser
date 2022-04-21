@@ -1,0 +1,36 @@
+name: Build parser
+
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    container:
+      image: mono:latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+      - name: Restore cache for ~/.nuget/packages
+        uses: actions/cache@v1
+        with:
+          path: ~/.nuget/packages
+          key: nuget-packref-modules-${{ hashFiles('**/*.csproj') }}
+      - name: Restore, build, and test
+        run: msbuild -r -p:configuration=Debug
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: KSPMMCfgParser.nupkg
+          path: _build/out/KSPMMCfgParser/Debug/bin/KSPMMCfgParser.*.nupkg
+          retention-days: 7
+        if: github.event_name == 'pull_request'

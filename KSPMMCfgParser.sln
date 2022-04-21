@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30225.117
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSPMMCfgParser", "KSPMMCfgParser\KSPMMCfgParser.csproj", "{28F66A72-8317-4CFB-B4CE-901C70136E6A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSPMMCfgValidator", "KSPMMCfgValidator\KSPMMCfgValidator.csproj", "{4F9CE4B6-D369-4713-A224-216982AC2BA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{DDB8B612-E538-4D7D-A3E1-4CB1EFF87229}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{28F66A72-8317-4CFB-B4CE-901C70136E6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28F66A72-8317-4CFB-B4CE-901C70136E6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28F66A72-8317-4CFB-B4CE-901C70136E6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28F66A72-8317-4CFB-B4CE-901C70136E6A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4F9CE4B6-D369-4713-A224-216982AC2BA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4F9CE4B6-D369-4713-A224-216982AC2BA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4F9CE4B6-D369-4713-A224-216982AC2BA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4F9CE4B6-D369-4713-A224-216982AC2BA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDB8B612-E538-4D7D-A3E1-4CB1EFF87229}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDB8B612-E538-4D7D-A3E1-4CB1EFF87229}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDB8B612-E538-4D7D-A3E1-4CB1EFF87229}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDB8B612-E538-4D7D-A3E1-4CB1EFF87229}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

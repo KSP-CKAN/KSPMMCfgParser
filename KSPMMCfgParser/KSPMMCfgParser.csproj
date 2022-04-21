@@ -1,0 +1,57 @@
+﻿<Project>
+  <PropertyGroup>
+    <AssemblyName>KSPMMCfgParser</AssemblyName>
+    <OutputPath>..\_build\$(AssemblyName)\$(Configuration)\bin\</OutputPath>
+    <BaseIntermediateOutputPath>..\_build\$(AssemblyName)\$(Configuration)\obj\</BaseIntermediateOutputPath>
+    <IntermediateOutputPath>..\_build\$(AssemblyName)\$(Configuration)\obj\</IntermediateOutputPath>
+  </PropertyGroup>
+  <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
+  <PropertyGroup>
+    <RootNamespace>KSPMMCfgParser</RootNamespace>
+    <ProjectGuid>{28F66A72-8317-4CFB-B4CE-901C70136E6A}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+    <Prefer32Bit>false</Prefer32Bit>
+    <LangVersion>8.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <TargetFramework>net461</TargetFramework>
+    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
+    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <Optimize>true</Optimize>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <DebugSymbols>false</DebugSymbols>
+    <DebugType>None</DebugType>
+    <DocumentationFile>$(BaseIntermediateOutputPath)$(AssemblyName).xml</DocumentationFile>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>KSPMMCfgParser</PackageId>
+    <Title>Kerbal Space Program Module Manager Config File Parser</Title>
+    <Description>Parses .cfg files in combined KSP/MM format</Description>
+    <Version>1.0.0</Version>
+    <PackageVersion>1.0.0</PackageVersion>
+    <Authors>The CKAN Authors</Authors>
+    <Copyright>Copyright © CKAN Authors 2022</Copyright>
+    <PackageTags>KerbalSpaceProgram ModuleManager Parser</PackageTags>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IsPackable>true</IsPackable>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageProjectUrl>https://github.com/KSP-CKAN/KSPMMCfgParser</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/KSP-CKAN/KSPMMCfgParser</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System" />
+    <Reference Include="System.Transactions" />
+    <PackageReference Include="log4net" Version="2.0.10" />
+    <PackageReference Include="ParsecSharp" Version="3.4.0" PrivateAssets="All" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="../README.md" Pack="true" PackagePath="\"/>
+  </ItemGroup>
+  <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+  <Target Name="Test"></Target>
+</Project>
