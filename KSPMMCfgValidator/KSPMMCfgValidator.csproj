@@ -8,7 +8,7 @@
   <Import Project="Sdk.props" Sdk="Microsoft.NET.Sdk" />
   <PropertyGroup>
     <RootNamespace>KSPMMCfgValidator</RootNamespace>
-    <ProjectGuid>{4F9CE4B6-D369-4713-A224-216982AC2BA}</ProjectGuid>
+    <ProjectGuid>{F610FCC4-4DD3-48D1-BB3C-9195466203F7}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <StartupObject>KSPMMCfgValidator.KSPMMCfgValidator</StartupObject>
     <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
