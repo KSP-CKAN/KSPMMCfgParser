@@ -41,17 +41,17 @@ The file, line, and column of each syntax error will be reported, one per line:
 
 ```
 > KSPMMCfgValidator.exe UnKerballedStart
-UnKerballedStart\Mod Support\Breaking_Ground.cfg:48:1: At AbortIfEntered -> Unexpected '@<0x40>'
-UnKerballedStart\Mod Support\CNAR.cfg:164:1: At AbortIfEntered -> Unexpected '<EndOfStream>'
-UnKerballedStart\Mod Support\InterstellarExtended.cfg:3:1: At AbortIfEntered -> Unexpected '<EndOfStream>'
-UnKerballedStart\Mod Support\knes.cfg:1:1: At AbortIfEntered -> Unexpected '/<0x2F>'
-UnKerballedStart\Mod Support\Luciole.cfg:1:1: At AbortIfEntered -> Unexpected '/<0x2F>'
-UnKerballedStart\Mod Support\NovaPunch.cfg:178:1: At AbortIfEntered -> Unexpected '[<0x5B>'
-UnKerballedStart\Mod Support\Orion.cfg:1:1: At AbortIfEntered -> Unexpected '/<0x2F>'
-UnKerballedStart\Mod Support\reDIRECT.cfg:1:1: At AbortIfEntered -> Unexpected '/<0x2F>'
-UnKerballedStart\Mod Support\SOCK.cfg:1:1: At AbortIfEntered -> Unexpected '/<0x2F>'
+UnKerballedStart\Mod Support\Breaking_Ground.cfg:48:1: Unexpected '@<0x40>'
+UnKerballedStart\Mod Support\CNAR.cfg:164:1: Unexpected '<EndOfStream>'
+UnKerballedStart\Mod Support\InterstellarExtended.cfg:3:1: Unexpected '<EndOfStream>'
+UnKerballedStart\Mod Support\knes.cfg:1:1: Unexpected '/<0x2F>'
+UnKerballedStart\Mod Support\Luciole.cfg:1:1: Unexpected '/<0x2F>'
+UnKerballedStart\Mod Support\NovaPunch.cfg:178:1: Unexpected '[<0x5B>'
+UnKerballedStart\Mod Support\Orion.cfg:1:1: Unexpected '/<0x2F>'
+UnKerballedStart\Mod Support\reDIRECT.cfg:1:1: Unexpected '/<0x2F>'
+UnKerballedStart\Mod Support\SOCK.cfg:1:1: Unexpected '/<0x2F>'
 UnKerballedStart\Mod Support\TACSelfDestruct.cfg:25:1: Expected '<EndOfStream>' but was '/<0x2F>'
-UnKerballedStart\Mod Support\X-20.cfg:1:1: At AbortIfEntered -> Unexpected '/<0x2F>'
+UnKerballedStart\Mod Support\X-20.cfg:1:1: Unexpected '/<0x2F>'
 ```
 
 ### See also

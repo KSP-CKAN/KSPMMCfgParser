@@ -36,6 +36,8 @@
     <PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13"
                       PrivateAssets="All"/>
     <ProjectReference Include="..\KSPMMCfgParser\KSPMMCfgParser.csproj" />
+    <ProjectReference Include="..\Tests\Tests.csproj"
+                      ReferenceOutputAssembly="false" />
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
   <Target Name="ILRepack" AfterTargets="Build" DependsOnTargets="Build">

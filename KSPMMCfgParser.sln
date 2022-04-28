@@ -5,9 +5,9 @@ VisualStudioVersion = 16.0.30225.117
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSPMMCfgParser", "KSPMMCfgParser\KSPMMCfgParser.csproj", "{28F66A72-8317-4CFB-B4CE-901C70136E6A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSPMMCfgValidator", "KSPMMCfgValidator\KSPMMCfgValidator.csproj", "{F610FCC4-4DD3-48D1-BB3C-9195466203F7}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tests", "Tests\Tests.csproj", "{DDB8B612-E538-4D7D-A3E1-4CB1EFF87229}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KSPMMCfgValidator", "KSPMMCfgValidator\KSPMMCfgValidator.csproj", "{F610FCC4-4DD3-48D1-BB3C-9195466203F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
