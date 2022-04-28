@@ -72,7 +72,8 @@ namespace KSPMMCfgValidator
 
         private static IEnumerable<string> FindCfgFiles(string dir)
             => Directory.EnumerateFiles(dir, "*.cfg",
-                                        SearchOption.AllDirectories);
+                                        SearchOption.AllDirectories)
+                        .Select(path => path.Replace('/', Path.DirectorySeparatorChar));
 
         private static readonly string[] GitHubEnvVars = new string[]
         {
