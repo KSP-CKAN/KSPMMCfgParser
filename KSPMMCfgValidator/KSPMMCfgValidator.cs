@@ -85,7 +85,7 @@ namespace KSPMMCfgValidator
                          .All(v => v != null);
 
         private static readonly string errorFormat =
-            inGitHub ? "::error file={0},line={1},col={2}::{3}"
+            inGitHub ? "::error file={0},line={1},col={2}::{0}:{1}:{2}: {3}"
                      : "{0}:{1}:{2}: {3}";
 
         private const int ExitOk     = 0;
