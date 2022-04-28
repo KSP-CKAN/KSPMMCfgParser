@@ -21,7 +21,7 @@ jobs:
         run: msbuild -r -p:configuration=Release
       - name: Smoke test the validator outside the build dir
         run: |
-          cp _build/KSPMMCfgValidator/Debug/bin/net461/KSPMMCfgValidator.exe .
+          cp _build/KSPMMCfgValidator/Release/bin/net461/KSPMMCfgValidator.exe .
           chmod a+x KSPMMCfgValidator.exe
           mono ./KSPMMCfgValidator.exe
       - name: Get release data
