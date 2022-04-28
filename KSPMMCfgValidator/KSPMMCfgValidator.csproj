@@ -32,7 +32,25 @@
     <PackageReference Include="log4net" Version="2.0.10" />
     <PackageReference Include="ParsecSharp" Version="3.4.0"
                       PrivateAssets="All" />
+    <PackageReference Include="ILRepack" Version="2.0.18" />
+    <PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13"
+                      PrivateAssets="All"/>
     <ProjectReference Include="..\KSPMMCfgParser\KSPMMCfgParser.csproj" />
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
+  <Target Name="ILRepack" AfterTargets="Build" DependsOnTargets="Build">
+    <ItemGroup>
+      <InputAssemblies Include="log4net.dll" />
+      <InputAssemblies Include="CommandLine.dll" />
+      <InputAssemblies Include="ParsecSharp.dll" />
+      <InputAssemblies Include="KSPMMCfgParser.dll" />
+    </ItemGroup>
+    <ILRepack OutputAssembly="$(AssemblyName).exe"
+              MainAssembly="$(AssemblyName).exe"
+              InputAssemblies="@(InputAssemblies)"
+              OutputType="$(OutputType)"
+              WorkingDirectory="$(OutputPath)"
+              Internalize="true"
+              Parallel="true" />
+  </Target>
 </Project>

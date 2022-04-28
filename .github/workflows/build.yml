@@ -27,10 +27,22 @@ jobs:
           key: nuget-packref-modules-${{ hashFiles('**/*.csproj') }}
       - name: Restore, build, and test
         run: msbuild -r -p:configuration=Debug
-      - name: Upload artifact
+      - name: Smoke test the validator outside the build dir
+        run: |
+          cp _build/KSPMMCfgValidator/Debug/bin/net461/KSPMMCfgValidator.exe .
+          chmod a+x KSPMMCfgValidator.exe
+          mono ./KSPMMCfgValidator.exe
+      - name: Upload parser nupkg artifact
         uses: actions/upload-artifact@v2
         with:
           name: KSPMMCfgParser.nupkg
-          path: _build/out/KSPMMCfgParser/Debug/bin/KSPMMCfgParser.*.nupkg
+          path: _build/KSPMMCfgParser/Debug/bin/KSPMMCfgParser.*.nupkg
+          retention-days: 7
+        if: github.event_name == 'pull_request'
+      - name: Upload validator exe artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: KSPMMCfgValidator.exe
+          path: _build/KSPMMCfgValidator/Debug/bin/net461/KSPMMCfgValidator.exe
           retention-days: 7
         if: github.event_name == 'pull_request'
