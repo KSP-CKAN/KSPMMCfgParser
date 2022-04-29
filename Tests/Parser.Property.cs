@@ -105,15 +105,28 @@ namespace Tests
                 // Destroy RO-M55 if RT20 from VSR exists
                 @PART[RT20]:BEFORE[RealismOverhaul] { *@PART[RO-M55]/deleteMe = true }
                 !PART[RO-M55]:HAS[#deleteMe[true]]:BEFORE[RealismOverhaul] {}
+
+                PARENT {
+                    *EXTERNAL = 1
+                    @WILD*EDIT = 2
+                    !WILD*DEL = DELETE
+                }
             ").WillSucceed(v =>
             {
-                Assert.AreEqual(2,                              v.Length);
+                Assert.AreEqual(3,                              v.Length);
                 Assert.AreEqual(MMOperator.ExternalValueAccess, v[0].Properties[0].Operator);
                 Assert.AreEqual(2,                              v[0].Properties[0].Path!.Length);
                 Assert.AreEqual(MMOperator.PathRoot,            v[0].Properties[0].Path![0].Operator);
                 Assert.AreEqual("PART",                         v[0].Properties[0].Path![0].Name);
                 Assert.AreEqual("RO-M55",                       v[0].Properties[0].Path![0].Filters![0]);
                 Assert.AreEqual("deleteMe",                     v[0].Properties[0].Path![1].Name);
+                
+                Assert.AreEqual(MMOperator.ExternalValueAccess, v[2].Properties[0].Operator);
+                Assert.AreEqual("EXTERNAL",                     v[2].Properties[0].Path![0].Name);
+                Assert.AreEqual(MMOperator.Edit,                v[2].Properties[1].Operator);
+                Assert.AreEqual("WILD*EDIT",                    v[2].Properties[1].Name);
+                Assert.AreEqual(MMOperator.Delete,              v[2].Properties[2].Operator);
+                Assert.AreEqual("WILD*DEL",                     v[2].Properties[2].Name);
             });
         }
 
