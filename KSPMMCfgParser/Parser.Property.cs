@@ -141,10 +141,26 @@ namespace KSPMMCfgParser
                      MMOperator.Insert);
 
         /// <summary>
-        /// Parser matching a name that may contain wildcards
+        /// The non-space characters that are allowed in a property identifier
         /// </summary>
-        public static readonly Parser<char, string> PropertyIdentifier = Many1(OneOf("#-_.+?*")
-                                                                               | LetterOrDigit()).AsString();
+        private static readonly Parser<char, char> PropertyWordChar =
+            LetterOrDigit() | OneOf("#_.?")
+                            // Only allow these if they're not part of += -= *= /=
+                            | OneOf("+-*/").Left(LookAhead(Not(Char('='))));
+
+        /// <summary>
+        /// Section of a property identifier containing spaces, always ends in a non-space
+        /// </summary>
+        private static readonly Parser<char, IEnumerable<char>> PropertyPiece =
+            Many(Char(' ')).Append(PropertyWordChar);
+
+        /// <summary>
+        /// Full property identifier, starting and ending with non-space characters,
+        /// with spaces allowed in between
+        /// </summary>
+        public static readonly Parser<char, string> PropertyIdentifier =
+            PropertyWordChar.Append(Many(PropertyPiece).Flatten())
+                            .AsString();
 
         private static readonly Parser<char, MMAssignmentOperator> ArithmeticAssignmentOperator =
                  Char('=').Map(_ => MMAssignmentOperator.Assign)
@@ -159,6 +175,15 @@ namespace KSPMMCfgParser
             | String("^=").Map(_ => MMAssignmentOperator.RegexReplace);
 
         /// <summary>
+        /// Capture characters after '=' until end of line, end of node, or comment
+        /// </summary>
+        public static readonly Parser<char, string> PropertyValue =
+            Many(NoneOf("\r\n}/")
+                 // Terminate if we find // for a comment, allow single /
+                 | Char('/').Left(LookAhead(Not(Char('/'))))).AsString()
+                                                             .Map(v => v.Trim());
+
+        /// <summary>
         /// Parser for a line setting a value in a ConfigNode, of the form
         /// name = value
         /// </summary>
@@ -169,10 +194,7 @@ namespace KSPMMCfgParser
             from index in Index.AsNullable()
             from arIdx in ArrayIndex.AsNullable()
             from asOp  in AssignmentOperator.Between(SpacesWithinLine)
-            from value in Many(NoneOf("\r\n}/")
-                               // Terminate if we find // for a comment, allow single /
-                               | Char('/').Left(LookAhead(Not(Char('/'))))).AsString()
-                                                                           .Map(v => v.Trim())
+            from value in PropertyValue
             select new KSPConfigProperty(op, name, needs, index, arIdx, asOp, value);
 
         /// <summary>
@@ -183,10 +205,7 @@ namespace KSPMMCfgParser
             from path  in Char('*').Right(NodePath)
             from needs in NeedsClause.AsNullable()
             from asOp  in ArithmeticAssignmentOperator.Between(SpacesWithinLine)
-            from value in Many(NoneOf("\r\n}/")
-                               // Terminate if we find // for a comment, allow single /
-                               | Char('/').Left(LookAhead(Not(Char('/'))))).AsString()
-                                                                           .Map(v => v.Trim())
+            from value in PropertyValue
             select new KSPConfigProperty(MMOperator.ExternalValueAccess, path, needs, asOp, value);
 
         /// <summary>
