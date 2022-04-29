@@ -79,7 +79,7 @@ Or you can add this to your csproj:
 ```xml
 <ItemGroup>
   <PackageReference Include="ParsecSharp" Version="3.4.0" />
-  <PackageReference Include="KSPMMCfgParser" Version="1.0.0" />
+  <PackageReference Include="KSPMMCfgParser" Version="1.0.5" />
 </ItemGroup>
 ```
 
