@@ -143,7 +143,7 @@ namespace KSPMMCfgParser
         /// <summary>
         /// Parser matching a name that may contain wildcards
         /// </summary>
-        public static readonly Parser<char, string> PropertyIdentifier = Many1(OneOf("#-_.+")
+        public static readonly Parser<char, string> PropertyIdentifier = Many1(OneOf("#-_.+?*")
                                                                                | LetterOrDigit()).AsString();
 
         private static readonly Parser<char, MMAssignmentOperator> ArithmeticAssignmentOperator =
@@ -193,6 +193,6 @@ namespace KSPMMCfgParser
         /// Parser for all properties, normal or external value access
         /// </summary>
         public static readonly Parser<char, KSPConfigProperty> Property =
-            NormalProperty | ExternalValueAccessProperty;
+            ExternalValueAccessProperty | NormalProperty;
     }
 }
