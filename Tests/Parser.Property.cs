@@ -43,6 +43,41 @@ namespace Tests
         }
 
         [Test]
+        public void PropertyParse_WeirdIdentifier_Works()
+        {
+            Property.Parse("CST-100 Heat Shield = heatshieldsLunar, capsulesCST")
+                    .WillSucceed(v =>
+                    {
+                        Assert.AreEqual("CST-100 Heat Shield", v.Name);
+                        Assert.AreEqual("heatshieldsLunar, capsulesCST", v.Value);
+                    });
+            Property.Parse("CST-100 Service Module = capsulesCST")
+                    .WillSucceed(v =>
+                    {
+                        Assert.AreEqual("CST-100 Service Module", v.Name);
+                        Assert.AreEqual("capsulesCST", v.Value);
+                    });
+            Property.Parse("CST-100 capsule = capsulesCST")
+                    .WillSucceed(v =>
+                    {
+                        Assert.AreEqual("CST-100 capsule", v.Name);
+                        Assert.AreEqual("capsulesCST", v.Value);
+                    });
+            Property.Parse("Castor-120/Regressive = 0,SolidsTVC")
+                    .WillSucceed(v =>
+                    {
+                        Assert.AreEqual("Castor-120/Regressive", v.Name);
+                        Assert.AreEqual("0,SolidsTVC", v.Value);
+                    });
+            Property.Parse("Castor-120/Saddle = 0,SolidsTVC")
+                    .WillSucceed(v =>
+                    {
+                        Assert.AreEqual("Castor-120/Saddle", v.Name);
+                        Assert.AreEqual("0,SolidsTVC", v.Value);
+                    });
+        }
+
+        [Test]
         public void PropertyParse_NeedsClause_works()
         {
             Property.Parse("key:NEEDS[Astrogator|PlanningNode&SmartTank] = value")
