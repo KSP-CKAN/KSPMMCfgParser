@@ -145,8 +145,10 @@ namespace KSPMMCfgParser
         /// </summary>
         private static readonly Parser<char, char> PropertyWordChar =
             LetterOrDigit() | OneOf("#_.?")
-                            // Only allow these if they're not part of += -= *= /=
-                            | OneOf("+-*/").Left(LookAhead(Not(Char('='))));
+                            // Only allow these if they're not part of += -= *=
+                            | OneOf("+-*").Left(LookAhead(Not(Char('='))))
+                            // Only allow / if it's not part of /= //
+                            | Char('/').Left(LookAhead(NoneOf("=/")));
 
         /// <summary>
         /// Section of a property identifier containing spaces, always ends in a non-space
