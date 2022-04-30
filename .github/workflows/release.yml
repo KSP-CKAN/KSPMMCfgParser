@@ -7,11 +7,9 @@ on:
 
 jobs:
   release:
+    name: Build release and publish assets
     runs-on: ubuntu-latest
-
-    container:
-      image: mono:latest
-
+    container: mono:latest
     steps:
       - name: Installing build dependencies
         run: apt-get update && apt-get install -y wget jq
@@ -24,14 +22,14 @@ jobs:
           cp _build/KSPMMCfgValidator/Release/bin/net461/KSPMMCfgValidator.exe .
           chmod a+x KSPMMCfgValidator.exe
           mono ./KSPMMCfgValidator.exe
+
       - name: Get release data
         id: release_data
         run: |
           echo -n '::set-output name=upload_url::'
-          wget -qO- https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest | jq -rM '.upload_url'
+          curl -fsSL https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest | jq -rM '.upload_url'
           echo -n '::set-output name=nupkg_basename::'
           basename _build/KSPMMCfgParser/Release/bin/KSPMMCfgParser.*.nupkg
-
       - name: Upload parser nupkg release asset
         uses: actions/upload-release-asset@v1.0.1
         env:
@@ -55,7 +53,7 @@ jobs:
       - name: Publish parser to NuGet
         env:
           NUGET_API_KEY: ${{ secrets.NUGET_API_KEY }}
-        if: ${{ env.NUGET_API_KEY }}
+        if: env.NUGET_API_KEY
         run: |
           curl -o nuget.exe -L 'https://dist.nuget.org/win-x86-commandline/v5.6.0/nuget.exe'
           mono nuget.exe push _build/KSPMMCfgParser/Release/bin/${{ steps.release_data.outputs.nupkg_basename }} ${{ secrets.NUGET_API_KEY }} -Source https://api.nuget.org/v3/index.json -SkipDuplicate
@@ -64,7 +62,7 @@ jobs:
         env:
           DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
           DOCKERHUB_PASSWORD: ${{ secrets.DOCKERHUB_PASSWORD }}
-        if: ${{ env.DOCKERHUB_USERNAME && env.DOCKERHUB_PASSWORD }}
+        if: env.DOCKERHUB_USERNAME && env.DOCKERHUB_PASSWORD
         run: |
           curl -fsSL https://get.docker.com -o get-docker.sh
           sh get-docker.sh
