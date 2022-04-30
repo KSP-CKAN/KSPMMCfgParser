@@ -29,8 +29,8 @@
     <PackageId>KSPMMCfgParser</PackageId>
     <Title>Kerbal Space Program Module Manager Config File Parser</Title>
     <Description>Parses .cfg files in combined KSP/MM format</Description>
-    <Version>1.0.5</Version>
-    <PackageVersion>1.0.5</PackageVersion>
+    <Version>1.0.6</Version>
+    <PackageVersion>1.0.6</PackageVersion>
     <Authors>The CKAN Authors</Authors>
     <Copyright>Copyright © CKAN Authors 2022</Copyright>
     <PackageTags>KerbalSpaceProgram ModuleManager Parser</PackageTags>
