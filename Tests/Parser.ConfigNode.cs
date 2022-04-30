@@ -353,5 +353,24 @@ namespace Tests
             });
         }
 
+        [Test]
+        public void ConfigFileParse_CommentWithEquals_IsNode()
+        {
+            ConfigFile.ToArray().Parse(@"
+                CONFIG
+                {
+                    PROPELLANT // Ratio = 3.55 [1]
+                    {
+                        name = LqdMethane
+                        ratio = 0.43
+                        DrawGauge = true
+                    }
+                }
+            ").WillSucceed(v =>
+            {
+                Assert.AreEqual(1, v[0].Children.Length);
+            });
+        }
+
     }
 }
