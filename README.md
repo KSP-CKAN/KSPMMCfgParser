@@ -56,6 +56,10 @@ UnKerballedStart\Mod Support\X-20.cfg:1:1: Unexpected '/<0x2F>'
 
 ### See also
 
+If you host your own CKAN metanetkan, you can validate it with:
+
+<https://github.com/KSP-CKAN/xKAN-meta_testing>
+
 Consider validating your version file as well:
 
 <https://github.com/DasSkelett/AVC-VersionFileValidator>
