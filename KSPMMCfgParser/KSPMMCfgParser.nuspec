@@ -1,0 +1,39 @@
+<?xml version="1.0"?>
+<package>
+  <metadata>
+    <id>KSPMMCfgParser</id>
+    <version>1.0.6</version>
+    <title>Kerbal Space Program Module Manager Config File Parser</title>
+    <authors>The CKAN Authors</authors>
+    <license type="expression">MIT</license>
+    <licenseUrl>https://licenses.nuget.org/MIT</licenseUrl>
+    <readme>README.md</readme>
+    <projectUrl>https://github.com/KSP-CKAN/KSPMMCfgParser</projectUrl>
+    <description>Parses .cfg files in combined KSP/MM format</description>
+    <copyright>Copyright © CKAN Authors 2022</copyright>
+    <tags>KerbalSpaceProgram ModuleManager Parser</tags>
+    <repository type="git"
+                url="https://github.com/KSP-CKAN/KSPMMCfgParser" />
+    <dependencies>
+      <group targetFramework=".NETFramework4.6.1">
+        <dependency id="log4net"
+                    version="2.0.10"
+                    exclude="Build,Analyzers" />
+      </group>
+    </dependencies>
+    <frameworkAssemblies>
+      <frameworkAssembly assemblyName="Microsoft.CSharp"
+                         targetFramework=".NETFramework4.6.1" />
+      <frameworkAssembly assemblyName="System"
+                         targetFramework=".NETFramework4.6.1" />
+      <frameworkAssembly assemblyName="System.Transactions"
+                         targetFramework=".NETFramework4.6.1" />
+    </frameworkAssemblies>
+  </metadata>
+  <files>
+    <file src="$OutputPath$$TargetFramework$\KSPMMCfgParser.*"
+          target="lib\$TargetFramework$" />
+    <file src="..\README.md"
+          target="\" />
+  </files>
+</package>

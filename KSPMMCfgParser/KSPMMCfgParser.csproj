@@ -26,21 +26,10 @@
     <DocumentationFile>$(BaseIntermediateOutputPath)$(AssemblyName).xml</DocumentationFile>
   </PropertyGroup>
   <PropertyGroup>
-    <PackageId>KSPMMCfgParser</PackageId>
-    <Title>Kerbal Space Program Module Manager Config File Parser</Title>
-    <Description>Parses .cfg files in combined KSP/MM format</Description>
-    <Version>1.0.6</Version>
-    <PackageVersion>1.0.6</PackageVersion>
-    <Authors>The CKAN Authors</Authors>
-    <Copyright>Copyright © CKAN Authors 2022</Copyright>
-    <PackageTags>KerbalSpaceProgram ModuleManager Parser</PackageTags>
+    <NuspecFile>KSPMMCfgParser.nuspec</NuspecFile>
+    <NuspecProperties>OutputPath=$(OutputPath);TargetFramework=$(TargetFramework)</NuspecProperties>
     <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
     <IsPackable>true</IsPackable>
-    <PackageLicenseExpression>MIT</PackageLicenseExpression>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageProjectUrl>https://github.com/KSP-CKAN/KSPMMCfgParser</PackageProjectUrl>
-    <RepositoryUrl>https://github.com/KSP-CKAN/KSPMMCfgParser</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="Microsoft.CSharp" />
