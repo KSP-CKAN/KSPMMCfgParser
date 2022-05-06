@@ -16,6 +16,8 @@ jobs:
     runs-on: ubuntu-latest
     container: mono:latest
     steps:
+      - name: Installing build dependencies
+        run: nuget update -self
       - name: Checkout
         uses: actions/checkout@v2
       - name: Restore cache for ~/.nuget/packages
