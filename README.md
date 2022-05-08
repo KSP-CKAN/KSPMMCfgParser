@@ -19,6 +19,7 @@ on:
       - opened
       - synchronize
       - reopened
+  workflow_dispatch:
 jobs:
   validate:
     name: Validate cfg files
