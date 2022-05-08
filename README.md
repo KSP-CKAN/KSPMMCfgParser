@@ -20,7 +20,7 @@ on:
       - synchronize
       - reopened
 jobs:
-  Validate .cfg files:
+  Validate-cfg-files:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
