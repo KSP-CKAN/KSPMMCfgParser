@@ -14,7 +14,7 @@ jobs:
       - name: Installing build dependencies
         run: apt-get update && apt-get install -y wget jq
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Restore, build, and test
         run: msbuild -r -p:configuration=Release
       - name: Smoke test the validator outside the build dir
