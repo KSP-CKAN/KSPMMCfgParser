@@ -210,7 +210,7 @@ namespace KSPMMCfgParser
         /// <summary>
         /// Parser matching a name that may contain wildcards
         /// </summary>
-        public static readonly Parser<char, string> NodeIdentifier = Many1(OneOf("-_.+")
+        public static readonly Parser<char, string> NodeIdentifier = Many1(OneOf("-_.+*?")
                                                                            | LetterOrDigit()).AsString();
 
         /// <summary>

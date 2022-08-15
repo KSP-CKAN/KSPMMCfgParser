@@ -372,5 +372,23 @@ namespace Tests
             });
         }
 
+        [Test]
+        public void ConfigFileParse_WildCardInNodeName_Works()
+        {
+            ConfigFile.ToArray().Parse(@"
+                @*,*
+                {
+                    !#autoLOC_439627 = Active Programs: <<1>> [Max: <<2>>]
+                }
+                @?ot?ase?ensitive // (n|N)ot(c|C)ase(s|S)ensitive
+                {
+                }
+            ").WillSucceed(v =>
+            {
+                Assert.AreEqual("*", v[0].Name, "node name with '*'");
+                Assert.AreEqual("?ot?ase?ensitive", v[1].Name, "node name with '?'");
+            });
+        }
+
     }
 }
