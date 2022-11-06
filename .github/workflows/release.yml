@@ -26,10 +26,10 @@ jobs:
       - name: Get release data
         id: release_data
         run: |
-          echo -n '::set-output name=upload_url::'
-          curl -fsSL https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest | jq -rM '.upload_url'
-          echo -n '::set-output name=nupkg_basename::'
-          basename _build/KSPMMCfgParser/Release/bin/KSPMMCfgParser.*.nupkg
+          echo -n 'upload_url=' >> $GITHUB_OUTPUT
+          curl -fsSL https://api.github.com/repos/$GITHUB_REPOSITORY/releases/latest | jq -rM '.upload_url' >> $GITHUB_OUTPUT
+          echo -n 'nupkg_basename=' >> $GITHUB_OUTPUT
+          basename _build/KSPMMCfgParser/Release/bin/KSPMMCfgParser.*.nupkg >> $GITHUB_OUTPUT
       - name: Upload parser nupkg release asset
         uses: actions/upload-release-asset@v1.0.1
         env:
