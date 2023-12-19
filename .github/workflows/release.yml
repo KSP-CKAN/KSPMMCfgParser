@@ -21,7 +21,7 @@ jobs:
           dotnet-version: '7'
       - name: Restore, build, and test
         run: |
-          msbuild -r -p:configuration=Debug -p:TargetFramework=net48
+          msbuild -r -p:configuration=Release -p:TargetFramework=net48
           dotnet build -f net7.0
       - name: Smoke test the validator outside the build dir
         run: |
