@@ -1,4 +1,4 @@
-﻿<Project>
+<Project>
   <PropertyGroup>
     <AssemblyName>KSPMMCfgParser.Tests</AssemblyName>
     <OutputPath>..\_build\$(AssemblyName)\$(Configuration)\bin\</OutputPath>
@@ -17,32 +17,39 @@
     <Prefer32Bit>false</Prefer32Bit>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-    <TargetFramework>net461</TargetFramework>
-    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworks>net48;net7.0</TargetFrameworks>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
   </PropertyGroup>
-  <ItemGroup>
+  <ItemGroup Condition=" '$(TargetFramework)' == 'net48' ">
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Transactions" />
-    <Reference Include="System.Windows.Forms" />
-    <PackageReference Include="Castle.Core" Version="4.4.1" />
-    <PackageReference Include="log4net" Version="2.0.10" />
-    <PackageReference Include="Moq" Version="4.14.5" />
-    <PackageReference Include="NUnit" Version="3.12.0" />
-    <PackageReference Include="NUnit3TestAdapter" Version="3.16.1" />
-    <PackageReference Include="NUnit.ConsoleRunner" Version="3.12.0"
-                      GeneratePathProperty="true" />
-    <PackageReference Include="MSBuildTasks" Version="1.5.0.235" />
-    <PackageReference Include="ParsecSharp" Version="3.4.0"
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="NUnit" Version="3.14.0"
                       PrivateAssets="All" />
-    <ProjectReference Include="..\KSPMMCfgParser\KSPMMCfgParser.csproj" />
+    <PackageReference Include="NUnit3TestAdapter" Version="4.5.0"
+                      PrivateAssets="All" />
+    <PackageReference Include="NUnit.ConsoleRunner" Version="3.16.3"
+                      PrivateAssets="All"
+                      GeneratePathProperty="true" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.8.0"
+                      PrivateAssets="All"/>
+    <PackageReference Include="ParsecSharp" Version="3.5.0" />
+    <ProjectReference Include="..\KSPMMCfgParser\KSPMMCfgParser.csproj">
+      <SetTargetFramework>TargetFramework=$(TargetFramework)</SetTargetFramework>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
-  <Target Name="Test" AfterTargets="Build" DependsOnTargets="Build">
-    <Exec EchoOff="true"
+  <Target Name="Test" AfterTargets="Build" DependsOnTargets="Build"
+          Condition=" '$(PkgNUnit_ConsoleRunner)' != '' ">
+    <Exec Condition=" '$(OS)' == 'Windows_NT' "
+          EchoOff="true"
           Command="$(PkgNUnit_ConsoleRunner)\tools\nunit3-console.exe $(OutputPath)$(TargetFileName) --work=$(OutputPath)" />
+    <Exec Condition=" '$(OS)' == 'Unix' "
+          EchoOff="true"
+          Command="mono $(PkgNUnit_ConsoleRunner)/tools/nunit3-console.exe $(OutputPath)$(TargetFileName) --work=$(OutputPath)" />
   </Target>
 </Project>
