@@ -17,42 +17,60 @@
     <Prefer32Bit>false</Prefer32Bit>
     <LangVersion>8.0</LangVersion>
     <Nullable>enable</Nullable>
-    <TargetFramework>net461</TargetFramework>
-    <TargetFrameworkIdentifier>.NETFramework</TargetFrameworkIdentifier>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <TargetFrameworks>net48;net7.0</TargetFrameworks>
     <Optimize>true</Optimize>
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <DebugSymbols>false</DebugSymbols>
     <DebugType>None</DebugType>
     <DocumentationFile>$(BaseIntermediateOutputPath)$(AssemblyName).xml</DocumentationFile>
+    <NoWarn>NU1701</NoWarn>
+    <CoreCompileDependsOn>PrepareResources;$(CompileDependsOn)</CoreCompileDependsOn>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <PackageReference Include="CommandLineParser" Version="1.9.71" />
-    <PackageReference Include="log4net" Version="2.0.10" />
-    <PackageReference Include="ParsecSharp" Version="3.4.0"
-                      PrivateAssets="All" />
-    <PackageReference Include="ILRepack" Version="2.0.18" />
+    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="ParsecSharp" Version="3.5.0" />
     <PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13"
-                      PrivateAssets="All"/>
-    <ProjectReference Include="..\KSPMMCfgParser\KSPMMCfgParser.csproj" />
+                      GeneratePathProperty="true"
+                      PrivateAssets="All" />
+    <ProjectReference Include="..\KSPMMCfgParser\KSPMMCfgParser.csproj">
+      <SetTargetFramework>TargetFramework=$(TargetFramework)</SetTargetFramework>
+    </ProjectReference>
     <ProjectReference Include="..\Tests\Tests.csproj"
-                      ReferenceOutputAssembly="false" />
+                      ReferenceOutputAssembly="false">
+      <Private>false</Private>
+      <SetTargetFramework>TargetFramework=$(TargetFramework)</SetTargetFramework>
+    </ProjectReference>
+    <EmbeddedResource Update="Properties\Resources.resx">
+      <Generator>MSBuild:Compile</Generator>
+      <LastGenOutput>$(IntermediateOutputPath)Resources.Designer.cs</LastGenOutput>
+      <StronglyTypedFileName>$(IntermediateOutputPath)Resources.Designer.cs</StronglyTypedFileName>
+      <StronglyTypedLanguage>$(Language)</StronglyTypedLanguage>
+      <StronglyTypedNamespace>$(RootNamespace).Properties</StronglyTypedNamespace>
+      <StronglyTypedClassName>%(Filename)</StronglyTypedClassName>
+    </EmbeddedResource>
   </ItemGroup>
+  <Target Name="UseOurResourceManager" AfterTargets="PrepareResources">
+    <WriteLinesToFile File="$(IntermediateOutputPath)Resources.Designer.cs"
+                      Lines="$([System.IO.File]::ReadAllText('$(IntermediateOutputPath)Resources.Designer.cs')
+                      .Replace('new global::System.Resources.ResourceManager', 'new SingleAssemblyResourceManager')
+                      .Replace('internal', 'public')
+                      .Replace('        [global::System.Diagnostics.CodeAnalysis', $([System.String]::Join('%0d%0a', '/// &lt;summary&gt;', '/// Constructor', '/// &lt;/summary&gt;', '        [global::System.Diagnostics.CodeAnalysis'))))"
+                      Overwrite="true" />
+  </Target>
   <Import Project="Sdk.targets" Sdk="Microsoft.NET.Sdk" />
-  <Target Name="ILRepack" AfterTargets="Build" DependsOnTargets="Build">
-    <ItemGroup>
-      <InputAssemblies Include="log4net.dll" />
-      <InputAssemblies Include="CommandLine.dll" />
-      <InputAssemblies Include="ParsecSharp.dll" />
-      <InputAssemblies Include="KSPMMCfgParser.dll" />
-    </ItemGroup>
-    <ILRepack OutputAssembly="$(AssemblyName).exe"
-              MainAssembly="$(AssemblyName).exe"
-              InputAssemblies="@(InputAssemblies)"
-              OutputType="$(OutputType)"
-              WorkingDirectory="$(OutputPath)"
-              Internalize="true"
-              Parallel="true" />
+  <Target Condition=" '$(TargetFramework)' == 'net48' "
+          Name="ILRepack"
+          AfterTargets="Build"
+          DependsOnTargets="Build">
+    <Message Text="Repacking $(OutputPath)Repack\$(AssemblyName).exe"
+             Importance="high" />
+    <Message Text="Logging to $(OutputPath)ILRepack.log"
+             Importance="high" />
+    <Exec WorkingDirectory="$(OutputPath)"
+          Command="$(PkgILRepack_MSBuild_Task)\tools\ilrepack.exe /parallel /internalize /wildcards /targetplatform:v4 /log:ILRepack.log /out:Repack\$(AssemblyName).exe $(AssemblyName).exe *.dll"
+          EchoOff="true"
+          StandardOutputImportance="low" />
   </Target>
 </Project>

@@ -23,11 +23,17 @@ jobs:
         with:
           path: ~/.nuget/packages
           key: nuget-packref-modules-${{ hashFiles('**/*.csproj') }}
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '7'
       - name: Restore, build, and test
-        run: msbuild -r -p:configuration=Debug
+        run: |
+          msbuild -r -p:configuration=Debug -p:TargetFramework=net48
+          dotnet build -f net7.0
       - name: Smoke test the validator outside the build dir
         run: |
-          cp _build/KSPMMCfgValidator/Debug/bin/net461/KSPMMCfgValidator.exe .
+          cp _build/KSPMMCfgValidator/Debug/bin/net48/Repack/KSPMMCfgValidator.exe .
           chmod a+x KSPMMCfgValidator.exe
           mono ./KSPMMCfgValidator.exe
 
@@ -42,6 +48,6 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: KSPMMCfgValidator.exe
-          path: _build/KSPMMCfgValidator/Debug/bin/net461/KSPMMCfgValidator.exe
+          path: _build/KSPMMCfgValidator/Debug/bin/net48/Repack/KSPMMCfgValidator.exe
           retention-days: 7
         if: github.event_name == 'pull_request'
