@@ -77,7 +77,7 @@
     <Exec Condition=" '$(OS)' == 'Unix' "
           WorkingDirectory="$(OutputPath)"
           Command="mono $(PkgILRepack_MSBuild_Task)/tools/ilrepack.exe /parallel /internalize /wildcards /targetplatform:v4 /log:ILRepack.log /out:Repack\$(AssemblyName).exe $(AssemblyName).exe *.dll"
-          EchoOff="true"
-          StandardOutputImportance="low" />
+          EchoOff="false"
+          StandardOutputImportance="high" />
   </Target>
 </Project>
