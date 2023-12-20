@@ -69,8 +69,14 @@
              Importance="high" />
     <Message Text="Logging to $(OutputPath)ILRepack.log"
              Importance="high" />
-    <Exec WorkingDirectory="$(OutputPath)"
+    <Exec Condition=" '$(OS)' == 'Windows_NT' "
+          WorkingDirectory="$(OutputPath)"
           Command="$(PkgILRepack_MSBuild_Task)\tools\ilrepack.exe /parallel /internalize /wildcards /targetplatform:v4 /log:ILRepack.log /out:Repack\$(AssemblyName).exe $(AssemblyName).exe *.dll"
+          EchoOff="true"
+          StandardOutputImportance="low" />
+    <Exec Condition=" '$(OS)' == 'Unix' "
+          WorkingDirectory="$(OutputPath)"
+          Command="mono $(PkgILRepack_MSBuild_Task)/tools/ilrepack.exe /parallel /internalize /wildcards /targetplatform:v4 /log:ILRepack.log /out:Repack\$(AssemblyName).exe $(AssemblyName).exe *.dll"
           EchoOff="true"
           StandardOutputImportance="low" />
   </Target>
