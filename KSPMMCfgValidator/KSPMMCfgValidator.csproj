@@ -25,6 +25,7 @@
     <DocumentationFile>$(BaseIntermediateOutputPath)$(AssemblyName).xml</DocumentationFile>
     <NoWarn>NU1701</NoWarn>
     <CoreCompileDependsOn>PrepareResources;$(CompileDependsOn)</CoreCompileDependsOn>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
