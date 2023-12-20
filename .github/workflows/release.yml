@@ -21,8 +21,8 @@ jobs:
           dotnet-version: '7'
       - name: Restore, build, and test
         run: |
-          msbuild -r -p:configuration=Release -p:TargetFramework=net48
-          dotnet build -f net7.0
+          msbuild -r -p:Configuration=Release
+          msbuild -r -t:pack -p:Configuration=Release
       - name: Smoke test the validator outside the build dir
         run: |
           cp _build/KSPMMCfgValidator/Release/bin/net48/Repack/KSPMMCfgValidator.exe .
