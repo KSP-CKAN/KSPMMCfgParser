@@ -12,7 +12,7 @@ RUN apt-get update \
 
 # Install the necessary pieces of Mono
 RUN apt-get install -y --no-install-recommends \
-    mono-runtime ca-certificates-mono libmono-microsoft-csharp4.0-cil libmono-system-data4.0-cil libmono-system-runtime-serialization4.0-cil libmono-system-transactions4.0-cil libmono-system-net-http-webrequest4.0-cil
+    mono-runtime ca-certificates-mono mono-devel mono-roslyn
 
 ADD KSPMMCfgValidator.exe /usr/local/bin/.
 ENTRYPOINT ["mono", "/usr/local/bin/KSPMMCfgValidator.exe"]

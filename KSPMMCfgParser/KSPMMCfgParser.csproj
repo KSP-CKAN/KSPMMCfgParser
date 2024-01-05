@@ -46,7 +46,6 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.15" />
     <PackageReference Include="ParsecSharp" Version="3.5.0" />
   </ItemGroup>
   <ItemGroup>
