@@ -30,7 +30,7 @@
   <ItemGroup>
     <Reference Include="System" />
     <PackageReference Include="CommandLineParser" Version="1.9.71" />
-    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="log4net" Version="3.5.0" />
     <PackageReference Include="ParsecSharp" Version="3.5.0" />
     <PackageReference Include="ILRepack.MSBuild.Task" Version="2.0.13"
                       GeneratePathProperty="true"

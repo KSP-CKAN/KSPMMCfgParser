@@ -27,7 +27,7 @@
     <Reference Include="System.Transactions" />
   </ItemGroup>
   <ItemGroup>
-    <PackageReference Include="log4net" Version="2.0.15" />
+    <PackageReference Include="log4net" Version="3.5.0" />
     <PackageReference Include="NUnit" Version="3.14.0"
                       PrivateAssets="All" />
     <PackageReference Include="NUnit3TestAdapter" Version="4.5.0"
