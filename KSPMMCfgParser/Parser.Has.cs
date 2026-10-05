@@ -117,7 +117,7 @@ namespace KSPMMCfgParser
                     from subHas   in hasClause.AsNullable()
                     select new MMHasPiece(hasType, hasKey, hasValue, subHas);
 
-                return from _open  in String(":HAS[")
+                return from _open  in StringIgnoreCase(":HAS[")
                        from pieces in HasPiece.SeparatedBy(OneOf("&,"))
                        from _close in Char(']')
                        select new MMHas(pieces);

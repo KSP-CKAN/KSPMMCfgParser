@@ -55,5 +55,27 @@ namespace Tests
             });
         }
 
+        [Test]
+        public void ConfigNodeParse_TagsInAnyCase_Works()
+        {
+            ConfigNode.Between(Spaces()).Parse(@"
+                @PART[x]:has[#mass[1]]:Needs[TestMod]:final
+                {
+                    @MODULE:has[#name[b]]:needs[TestMod]
+                    {
+                    }
+                    k:needs[TestMod] = 1
+                }
+            ").WillSucceed(v =>
+            {
+                Assert.AreEqual("mass", v.Has!.Pieces[0].Key);
+                Assert.IsTrue(v.Needs!.Satisfies("TestMod"));
+                Assert.IsTrue(v.Final);
+                Assert.AreEqual("name", v.Children[0].Has!.Pieces[0].Key);
+                Assert.IsTrue(v.Children[0].Needs!.Satisfies("TestMod"));
+                Assert.IsTrue(v.Properties[0].Needs!.Satisfies("TestMod"));
+            });
+        }
+
     }
 }

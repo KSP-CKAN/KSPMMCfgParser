@@ -45,5 +45,19 @@ namespace Tests
                      });
         }
 
+        [Test]
+        public void HasClauseParse_AnyCase_Works()
+        {
+            HasClause.Parse(":has[@MODULE[ModuleEngines]:Has[@PROPELLANT[XenonGas]],#mass[1]]")
+                     .WillSucceed(v =>
+                     {
+                         Assert.AreEqual(2,            v.Pieces.Length);
+                         Assert.AreEqual("MODULE",     v.Pieces[0].Key);
+                         Assert.AreEqual("PROPELLANT", v.Pieces[0].HasClause.Pieces[0].Key);
+                         Assert.AreEqual("XenonGas",   v.Pieces[0].HasClause.Pieces[0].Value);
+                         Assert.AreEqual("mass",       v.Pieces[1].Key);
+                     });
+        }
+
     }
 }

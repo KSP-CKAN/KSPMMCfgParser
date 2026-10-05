@@ -136,6 +136,6 @@ namespace KSPMMCfgParser
         /// :NEEDS[blah|blah&amp;blah]
         /// </summary>
         public static readonly Parser<char, MMNeedsAnd> NeedsClause =
-            NeedsAnd.Between(String(":NEEDS["), Char(']'));
+            NeedsAnd.Between(StringIgnoreCase(":NEEDS["), Char(']'));
     }
 }
