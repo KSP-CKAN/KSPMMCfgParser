@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 using System.Collections.Generic;
 
@@ -41,7 +42,7 @@ namespace KSPMMCfgParser
         /// true if the mod list satisifies our requirement, false otherwise
         /// </returns>
         public bool Satisfies(List<string> InstalledMods)
-            => Negated ^ InstalledMods.Contains(ModName);
+            => Negated ^ InstalledMods.Contains(ModName, StringComparer.OrdinalIgnoreCase);
     }
 
     /// <summary>

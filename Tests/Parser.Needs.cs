@@ -42,6 +42,33 @@ namespace Tests
         }
 
         [Test]
+        public void NeedsClauseParse_ModNameCase_Ignored()
+        {
+            NeedsClause.Parse(":NEEDS[realfuels]")
+                       .WillSucceed(v =>
+                       {
+                           Assert.IsTrue(v.Satisfies("RealFuels"));
+                           Assert.IsTrue(v.Satisfies("REALFUELS"));
+                           Assert.IsFalse(v.Satisfies("RealFuel"));
+                           // The name is kept as written
+                           Assert.AreEqual("realfuels", v.Arguments[0].Arguments[0].ModName);
+                       });
+            NeedsClause.Parse(":NEEDS[REALFUELS&!modularfuelsystem]")
+                       .WillSucceed(v =>
+                       {
+                           Assert.IsTrue(v.Satisfies("RealFuels"));
+                           Assert.IsFalse(v.Satisfies("RealFuels", "ModularFuelSystem"));
+                           Assert.IsFalse(v.Satisfies("ModularFuelSystem"));
+                       });
+            NeedsClause.Parse(":NEEDS[Mod1|mod2]")
+                       .WillSucceed(v =>
+                       {
+                           Assert.IsTrue(v.Satisfies("MOD2"));
+                           Assert.IsFalse(v.Satisfies("Mod3"));
+                       });
+        }
+
+        [Test]
         public void ConfigNodeParse_NeedsClause_Works()
         {
             ConfigNode.Between(Spaces()).Parse(
