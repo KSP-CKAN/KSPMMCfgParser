@@ -119,9 +119,20 @@ namespace KSPMMCfgParser
 
     public static partial class KSPMMCfgParser
     {
+        /// <summary>
+        /// ModuleManager takes any text between the separators as a mod name.
+        /// What cannot appear is whatever ends the name first: whitespace and
+        /// parentheses (the stock loader cuts a node name there), braces, =,
+        /// the start of a comment, brackets, and the separators themselves.
+        /// </summary>
+        private static readonly Parser<char, char> NeedsModChar =
+            NoneOf(" \t\r\n(){}=[]&,|/")
+            // Only allow / if it's not part of //
+            | Char('/').Left(LookAhead(Not(Char('/'))));
+
         private static readonly Parser<char, MMNeedsMod> NeedsMod =
             from negated in Optional(Char('!'))
-            from name    in Many1(LetterOrDigit() | OneOf("/_-?")).AsString()
+            from name    in Many1(NeedsModChar).AsString()
             select new MMNeedsMod(name, negated);
 
         private static readonly Parser<char, MMNeedsOr> NeedsOr =
