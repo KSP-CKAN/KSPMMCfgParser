@@ -390,5 +390,77 @@ namespace Tests
             });
         }
 
+        [Test]
+        public void ConfigFileParse_SlashInNodeName_Works()
+        {
+            ConfigFile.ToArray().Parse(@"
+                ACTIVE_TEXTURE_MANAGER_CONFIG
+                {
+                    OVERRIDES
+                    {
+                        B9_Aerospace/Parts/Aero_Wing_Procedural/.*
+                        {
+                            compress = false
+                        }
+                    }
+                }
+                tex/path/name
+                {
+                    k = 1
+                }
+                @tex/path/name:FINAL // comment
+                {
+                    @/leading
+                    {
+                    }
+                    trailing/
+                    {
+                    }
+                }
+                closed/by/comment// comment
+                {
+                }
+            ").WillSucceed(v =>
+            {
+                Assert.AreEqual(4, v.Length);
+                Assert.AreEqual("B9_Aerospace/Parts/Aero_Wing_Procedural/.*",
+                                v[0].Children[0].Children[0].Name);
+                Assert.AreEqual("false", v[0].Children[0].Children[0].Properties[0].Value);
+                Assert.AreEqual("tex/path/name",    v[1].Name);
+                Assert.AreEqual(MMOperator.Insert,  v[1].Operator);
+                Assert.AreEqual("tex/path/name",    v[2].Name);
+                Assert.AreEqual(MMOperator.Edit,    v[2].Operator);
+                Assert.IsTrue(v[2].Final);
+                Assert.AreEqual("/leading",         v[2].Children[0].Name);
+                Assert.AreEqual(MMOperator.Edit,    v[2].Children[0].Operator);
+                Assert.AreEqual("trailing/",        v[2].Children[1].Name);
+                Assert.AreEqual("closed/by/comment", v[3].Name);
+            });
+        }
+
+        [Test]
+        public void ConfigNodeParse_SlashElsewhere_Unchanged()
+        {
+            // A path keeps '/' as its separator
+            ConfigNode.Between(Spaces()).Parse(@"
+                @PART[x]
+                {
+                    #@PART[y]/MODULE[z] { }
+                    *@PART[y]/mass = 5
+                }
+            ").WillSucceed(v =>
+            {
+                Assert.AreEqual(1,        v.Pastes.Length);
+                Assert.AreEqual(2,        v.Pastes[0].Path.Length);
+                Assert.AreEqual("PART",   v.Pastes[0].Path[0].Name);
+                Assert.AreEqual("MODULE", v.Pastes[0].Path[1].Name);
+                Assert.AreEqual(2,        v.Properties[0].Path!.Length);
+                Assert.AreEqual("mass",   v.Properties[0].Path![1].Name);
+            });
+            // A pass name does not take '/'
+            Assert.IsFalse(ConfigNode.Parse("@PART[x]:FOR[A/B] { }")
+                                     .CaseOf(failure => false, success => true));
+        }
+
     }
 }

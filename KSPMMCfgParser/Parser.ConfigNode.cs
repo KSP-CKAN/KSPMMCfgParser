@@ -214,6 +214,16 @@ namespace KSPMMCfgParser
                                                                            | LetterOrDigit()).AsString();
 
         /// <summary>
+        /// Parser matching the name of a config node.
+        /// Unlike a pass name or a piece of a node path, it may contain '/'.
+        /// </summary>
+        private static readonly Parser<char, string> ConfigNodeIdentifier =
+            Many1(OneOf("-_.+*?")
+                  | LetterOrDigit()
+                  // Only allow / if it's not part of //
+                  | Char('/').Left(LookAhead(Not(Char('/'))))).AsString();
+
+        /// <summary>
         /// Parser matching the [name] after a node
         /// </summary>
         public static readonly Parser<char, IEnumerable<string>> Filters =
@@ -262,7 +272,7 @@ namespace KSPMMCfgParser
         public static readonly Parser<char, KSPConfigNode> ConfigNode =
             Fix<char, KSPConfigNode>(configNode =>
                 from op        in NodeOperator
-                from name      in NodeIdentifier
+                from name      in ConfigNodeIdentifier
                 from filters   in Filters.AbortQuietlyIfEntered()
                                          .AsNullable()
                 from suffixes  in Many(HasClause!.AbortQuietlyIfEntered()
