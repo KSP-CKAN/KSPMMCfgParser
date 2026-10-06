@@ -214,13 +214,19 @@ namespace KSPMMCfgParser
                                                                            | LetterOrDigit()).AsString();
 
         /// <summary>
-        /// Parser matching the [name] after a node
+        /// Parser matching the [name] after a node.
+        /// An alternative may be empty, as in [|name], and is kept as an
+        /// empty string: ModuleManager matches it against an empty name.
+        /// Empty brackets alone are no filter at all.
         /// </summary>
         public static readonly Parser<char, IEnumerable<string>> Filters =
-            Many1(NoneOf("|,]")).AsString()
-                                .SeparatedBy(OneOf("|,"))
-                                .Between(Char('['),
-                                         Char(']'));
+            Many(NoneOf("|,]")).AsString()
+                               .SeparatedBy(OneOf("|,"))
+                               .Map(names => names.SequenceEqual(new string[] { "" })
+                                                 ? Enumerable.Empty<string>()
+                                                 : names)
+                               .Between(Char('['),
+                                        Char(']'));
 
         /// <summary>
         /// :BEFORE, :FOR, :AFTER, etc.

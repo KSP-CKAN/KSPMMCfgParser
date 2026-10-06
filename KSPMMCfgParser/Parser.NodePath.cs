@@ -65,13 +65,24 @@ namespace KSPMMCfgParser
     public static partial class KSPMMCfgParser
     {
         /// <summary>
+        /// Parser matching the [name] of a piece of a node path.
+        /// ModuleManager takes the whole text as one pattern there, so unlike
+        /// the name of a patch, it gets no empty alternatives.
+        /// </summary>
+        private static readonly Parser<char, IEnumerable<string>> PathFilters =
+            Many1(NoneOf("|,]")).AsString()
+                                .SeparatedBy(OneOf("|,"))
+                                .Between(Char('['),
+                                         Char(']'));
+
+        /// <summary>
         /// Parser for a node part of a # paste operator string
         /// </summary>
         public static readonly Parser<char, MMNodePathPiece> NodePathPieceNode =
             from op        in Optional(Char('@').Map(_ => MMOperator.PathRoot),
                                        MMOperator.PathRelative)
             from name      in NodeIdentifier
-            from filters   in Filters.AsNullable()
+            from filters   in PathFilters.AsNullable()
             from suffixes  in Many(HasClause!.AsDynamic()
                                    | Index!.AsDynamic())
             select new MMNodePathPiece(op, name, filters,

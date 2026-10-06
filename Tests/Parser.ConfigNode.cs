@@ -150,6 +150,37 @@ namespace Tests
         }
 
         [Test]
+        public void ConfigNodeParse_EmptyNameAlternatives_Kept()
+        {
+            ConfigNode.Parse("@PART[|strl-worldpower-rad?]:NEEDS[SterlingSystems/WorldPower]:BEFORE[Kerbalism] { }")
+                      .WillSucceed(v =>
+                      {
+                          CollectionAssert.AreEqual(new string[] { "", "strl-worldpower-rad?" }, v.Filters);
+                          Assert.AreEqual("Kerbalism", v.Before);
+                      });
+            ConfigNode.Parse("@PART[x|] { }")
+                      .WillSucceed(v => CollectionAssert.AreEqual(new string[] { "x", "" }, v.Filters));
+            ConfigNode.Parse("@PART[x||y] { }")
+                      .WillSucceed(v => CollectionAssert.AreEqual(new string[] { "x", "", "y" }, v.Filters));
+            ConfigNode.Parse("@PART[,x] { }")
+                      .WillSucceed(v => CollectionAssert.AreEqual(new string[] { "", "x" }, v.Filters));
+            ConfigNode.Parse("@PART[|] { }")
+                      .WillSucceed(v => CollectionAssert.AreEqual(new string[] { "", "" }, v.Filters));
+        }
+
+        [Test]
+        public void ConfigNodeParse_NameFilters_Unchanged()
+        {
+            ConfigNode.Parse("@PART[x|y,z] { }")
+                      .WillSucceed(v => CollectionAssert.AreEqual(new string[] { "x", "y", "z" }, v.Filters));
+            // Empty brackets are no filter, not one empty alternative
+            ConfigNode.Parse("@PART[] { }")
+                      .WillSucceed(v => CollectionAssert.IsEmpty(v.Filters));
+            ConfigNode.Parse("@PART { }")
+                      .WillSucceed(v => Assert.IsNull(v.Filters));
+        }
+
+        [Test]
         public void ConfigFileParse_Empty_Works()
         {
             ConfigFile.ToArray().Parse("")
